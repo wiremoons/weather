@@ -1,0 +1,27 @@
+# Git Ignore for weather application
+# exclude Vim temp files
+*.swp
+*.swo
+# exclude temp files often created by Emacs
+*~
+# exclude any .out files such as gmon.out and a.out
+*.out
+# exclude any compiled versions of amt
+weather
+weather.exe
+# ignore cscope and ctags databases
+cscope.out
+TAGS
+tags
+.tags
+.tags_sorted_by_file
+# ignore and database files
+*.db
+# ingnore any C object files
+*.o
+# ignore .depends file created by cmake
+.depend
+# ignore CMake build directory
+build/
+# ignore keys file used for development reference
+keys.txt
