@@ -16,7 +16,6 @@
 #define MAIN_H_
 
 #include "cJSON.h"           /* cJSON library : github.com/DaveGamble/cJSON */
-#include "cli-args.h"        /* manages the command line args from user */
 #include "get_url_details.h" /* get DarkSky url for weather forecast request */
 #include "getpage.h"         /* downloads the web page provided */
 #include "screen-output.h"   /* displays program outputs to the screen */
@@ -27,9 +26,7 @@
 /*
  *   APPLICATION GLOBAL VARIABLES
  */
-char appversion[] = "0.0.2"; /* set the version of the app here */
-int help = 0;          /* control help outputs request 0 == off | 1 == on */
-int version = 0;       /* control version outputs 0 == off | 1 == on */
+char appversion[] = "0.0.3"; /* set the version of the app here */
 int debug = 0;         /* control if debug is enabled 0 == off | 1 == on */
 char *cli_page = NULL; /* URL of request to DarkSky API */
 
