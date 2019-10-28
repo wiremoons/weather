@@ -1,5 +1,31 @@
 /*
- *  Weather Forecast Retrieval Tool (weather) : main.c
+ *  MIT License
+ *
+ *  Copyright (c) 2019 Simon Rowe
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to
+ *  deal in the Software without restriction, including without limitation the
+ *  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ *  sell copies of the Software, and to permit persons to whom the Software is
+ *  furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included in
+ *  all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ *  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ *  IN THE SOFTWARE.
+ *
+ *  Written by Simon Rowe <simon@wiremoons.com> on 11 Oct 2019
+ *  Source code available from GitHub: https://github.com/wiremoons/weather.git
+ *
+ *  Weather Forecast Retrieval Tool (weather)
+ *
  */
 
 #include "main.h"
@@ -28,21 +54,17 @@ int main(int argc, char **argv)
         /* obtain any command line args from the user and action them */
         if (argc > 1) {
 
-                // first check if we were invoked with either -h or --help
-                // in which case show basic usage and exit
                 if (strcmp(argv[1], "-h") == 0 ||
                     strcmp(argv[1], "--help") == 0) {
                         show_help();
                         return (EXIT_SUCCESS);
                 }
 
-                // check if user wants the debug output displayed
                 if (strcmp(argv[1], "-d") == 0 ||
                     strcmp(argv[1], "--debug") == 0) {
                         debug = 1;
                 }
 
-                /* if '-v' used on command line display version info and exit */
                 if (strcmp(argv[1], "-v") == 0 ||
                     strcmp(argv[1], "--version") == 0) {
                         print_version_screen(argv[0]);
@@ -83,9 +105,7 @@ int main(int argc, char **argv)
         }
 
         /* Read the temporary files JSON data into a memory buffer
-         * called 'source' ready for parsing  in the next step if
-         * successful */
-        /* move to the end of the file */
+         * called 'source' ready for parsing  in the next step */
         if (fseek(infile, 0L, SEEK_END) == 0) {
 
                 /* Get the size of the file. */
@@ -108,7 +128,7 @@ int main(int argc, char **argv)
                 /* Go back to the start of the file. */
                 if (fseek(infile, 0L, SEEK_SET) != 0) {
                         fprintf(stderr, "ERROR: unable to move to start of the "
-                                        "JSPN temp file\n");
+                                        "JSON temp file\n");
                         exit(EXIT_FAILURE);
                 }
 
@@ -146,7 +166,8 @@ int main(int argc, char **argv)
  * registering 'atexit()' function at beginning of main()
  *
  * Function returns nothing and is always last part to the program to
- * run
+ * execute
+ *
  */
 void exit_cleanup(void)
 {
