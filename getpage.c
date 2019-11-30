@@ -2,8 +2,8 @@
  * Weather Forecast Application : getpage.c
  *
  * Invokes curl library functions to download the weather data in JSON format
- * from the Dark Sky web site using data the from the provided URL. Uses the https
- * protocol only.
+ * from the Dark Sky web site using data the from the provided URL. Uses the
+ * https protocol only.
  *
  * Download weather data is stored in a local file called weatherdata.json
  *
