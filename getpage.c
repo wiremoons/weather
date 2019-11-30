@@ -2,7 +2,7 @@
  * Weather Forecast Application : getpage.c
  *
  * Invokes curl library functions to download the weather data in JSON format
- * from the Dark Sky web iste using the from the provided URL using the https
+ * from the Dark Sky web site using data the from the provided URL. Uses the https
  * protocol only.
  *
  * Download weather data is stored in a local file called weatherdata.json
@@ -22,11 +22,11 @@
 
 /* Function getpage
  *  Takes two parameters:
- *       - url_req : the full url and parameter of the weather data request
+ *       - url_req : the full url and parameters for the weather data request
  *       - pageholder : the temporary file to write the JSON data into
  *
  * function downloads the requested url and saves the output to a temporary
- * file.  The function returns the result code received from the web site, or
+ * file. The function returns the result code received from the web site, or
  * exits on failure.
  *
  */
@@ -61,7 +61,8 @@ long getpage(char *url_req, FILE *pageholder)
         /* write any downloaded data from the web site url the temporary file */
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, pageholder);
-        /* carry out retrieval of  DarkSky weather page */
+
+        /* carry out retrieval of DarkSky weather page */
         result = curl_easy_perform(curl);
 
         /* check for errors */
@@ -107,6 +108,7 @@ long getpage(char *url_req, FILE *pageholder)
                        "seconds\n ",
                        dl, total_time, name_lookup);
         }
+
         /* clean up curl memory use */
         curl_easy_cleanup(curl);
 
