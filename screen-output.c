@@ -1,7 +1,7 @@
 /* Weather Forecast Tool (getweather) : screen-output.c */
 
-#include "cJSON.h"
 #include "screen-output.h"
+#include "cJSON.h"
 
 /* added to enable compile on MacOSX */
 #ifndef __clang__
@@ -39,7 +39,7 @@ void print_version_screen(char *prog_name)
             "\nFor licenses and further information visit:\n"
             " - Weather application :  https://github.com/wiremoons/weather/\n"
             " - Curl and Libcurl    :  https://github.com/curl/curl/\n"
-            " - cJSON library        :  https://github.com/DaveGamble/cJSON/\n"
+            " - cJSON library       :  https://github.com/DaveGamble/cJSON/\n"
             "\n");
 }
 
