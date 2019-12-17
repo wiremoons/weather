@@ -39,8 +39,8 @@ void print_version_screen(char *prog_name)
             "\nFor licenses and further information visit:\n"
             " - Weather application :  https://github.com/wiremoons/weather/\n"
             " - Curl and Libcurl    :  https://github.com/curl/curl/\n"
-            " - cJSON libary        :  "
-            "https://github.com/DaveGamble/cJSON/\n\n");
+            " - cJSON library        :  https://github.com/DaveGamble/cJSON/\n"
+            "\n");
 }
 
 /*
