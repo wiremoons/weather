@@ -1,7 +1,9 @@
 # cmake build file for: weather
 #  created 31 Jul 2019
-#  To use run:  mkdir build && cd build && cmake .. && make  
-cmake_minimum_required(VERSION 3.13)
+#  To use run:  mkdir build && cd build && cmake .. && make
+#
+# min cmake version was 3.13. Set for GitHub version: 3.12.4
+cmake_minimum_required(VERSION 3.12)
 project(weather)
 #
 # enable verbose output
