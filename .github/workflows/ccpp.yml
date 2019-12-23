@@ -11,9 +11,12 @@ jobs:
     - uses: actions/checkout@v1
     - name: Install Dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install -y libcurl4-openssl-dev
-    - name: build-script
+        sudo apt update
+        sudo apt -y autoremove
+        sudo apt -y install libcurl4-openssl-dev
+    - name: Create Build with CMake
       run: sh ./build.sh
-    - name: make
+    - name: Build with 'make'
       run: cd ./build ; make
+    - name : Test Run 'weather' App
+      run: ./weather
