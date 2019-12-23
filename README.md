@@ -1,5 +1,5 @@
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE)
-![](https://github.com/wiremoons/weather/workflows/weather-build-C/badge.svg)
+![](https://github.com/wiremoons/weather-C/workflows/weather-build-C/badge.svg)
 
 # weather
 Command line weather forecast retrieving tool written in C.
