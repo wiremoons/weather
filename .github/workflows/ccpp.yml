@@ -9,8 +9,11 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libcurl4-openssl-dev
     - name: build-script
       run: sh ./build.sh
     - name: make
       run: cd ./build ; make
-  
