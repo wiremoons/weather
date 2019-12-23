@@ -14,22 +14,14 @@ jobs:
         sudo apt update
         sudo apt -y autoremove
         sudo apt -y install libcurl4-openssl-dev
-    - name: Get Build Environment
+    - name: Create build env and Makefile with CMake
       run: |
-        export CURRBD=$(pwd)
-        ls -la
-        printf "Current build directory: %s\n" "$CURRBD"
-    - name: Create Build with CMake
-      run: |
-        printf "Current build directory: %s\n" "$CURRBD"
-        cd $CURRBD
-        $CURRBD/build.sh
+        sh ./build.sh
     - name: Build with 'make'
       run: |
-        cd $CURRBD/build
+        cd build/
         make
     - name : Test Run 'weather' App
       run: |
-        pwd
-        ls -l
-        $CURRBD/build/weather
+        cd build/
+        ./weather
