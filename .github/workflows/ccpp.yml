@@ -21,8 +21,9 @@ jobs:
         printf "Current build directory: %s\n" "$CURRBD"
     - name: Create Build with CMake
       run: |
+        printf "Current build directory: %s\n" "$CURRBD"
         cd $CURRBD
-        sh ./build.sh
+        $CURRBD/build.sh
     - name: Build with 'make'
       run: |
         cd $CURRBD/build
