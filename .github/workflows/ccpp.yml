@@ -19,4 +19,7 @@ jobs:
     - name: Build with 'make'
       run: cd ./build ; make
     - name : Test Run 'weather' App
-      run: ./weather
+      run: |
+        pwd
+        ls -l
+        weather
