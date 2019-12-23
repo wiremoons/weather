@@ -135,7 +135,7 @@ int parse_now(char *json_source)
                 dsummary = cJSON_GetObjectItemCaseSensitive(daily, "summary");
                 if (cJSON_IsString(summary) &&
                     (dsummary->valuestring != NULL)) {
-                        printf("\n» General Outlook:\n\t'%s'\n",
+                        printf("\n» Weather Outlook:\n\t'%s'\n",
                                dsummary->valuestring);
                 }
         }

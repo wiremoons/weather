@@ -21,8 +21,8 @@ char *provide_url(void)
         char *cli_page = NULL;
 
         char *fullurl = "https://api.darksky.net/forecast/"
-                        "<key-here>/"
-                        "<loc-here>?units=uk2";
+                        "66fd639c6914180e12c355899c5ec267/"
+                        "51.419212,-3.291481?units=uk2";
 
         /* allocated memory for complete URL on heap */
         cli_page = (char *)malloc(sizeof(char) * (strlen(fullurl) + 1));

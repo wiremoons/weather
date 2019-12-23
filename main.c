@@ -99,12 +99,11 @@ int main(int argc, char **argv)
         if (web_result_code != 200) {
                 fprintf(stderr,
                         "\nWARNING: DarkSky web site returned http "
-                        "response "
-                        "code: %ld\n",
+                        "response code: %ld\n",
                         web_result_code);
         }
 
-        /* Read the temporary files JSON data into a memory buffer
+        /* Read the temporary file JSON data into a memory buffer
          * called 'source' ready for parsing  in the next step */
         if (fseek(infile, 0L, SEEK_END) == 0) {
 
@@ -112,7 +111,8 @@ int main(int argc, char **argv)
                 long bufsize = ftell(infile);
 
                 if (bufsize == -1) {
-                        fprintf(stderr, "ERROR: file size is negative\n");
+                        fprintf(stderr, "ERROR: JSON weather temporary file "
+                                        "size is negative\n");
                         exit(EXIT_FAILURE);
                 }
 
@@ -120,23 +120,24 @@ int main(int argc, char **argv)
                 source = malloc(sizeof(char) * (bufsize + 1));
 
                 if (source == NULL) {
-                        fprintf(stderr, "ERROR: no memory allocated for JSON "
-                                        "temp file buffer\n");
+                        fprintf(stderr,
+                                "ERROR: memory allocation failed for JSON "
+                                "temporary file buffer\n");
                         exit(EXIT_FAILURE);
                 }
 
                 /* Go back to the start of the file. */
                 if (fseek(infile, 0L, SEEK_SET) != 0) {
                         fprintf(stderr, "ERROR: unable to move to start of the "
-                                        "JSON temp file\n");
+                                        "JSON temporary file\n");
                         exit(EXIT_FAILURE);
                 }
 
-                /* Read the entire file into memory. */
+                /* Read the entire JSON temporary file into memory. */
                 size_t newLen = fread(source, sizeof(char), bufsize, infile);
 
                 if (ferror(infile) != 0) {
-                        fputs("ERROR: reading JSON temp file", stderr);
+                        fputs("ERROR: reading JSON temporary file", stderr);
                 } else {
                         source[newLen++] = '\0'; /* Just to be safe. */
                 }
@@ -145,13 +146,13 @@ int main(int argc, char **argv)
         /* close temporary file now no longer needed */
         fclose(infile);
 
-        /* call parse on JSON file */
+        /* call parse on JSON memory file 'source' then free it */
         if (parse_now(source) == EXIT_SUCCESS) {
                 if (source != NULL)
                         free(source);
                 return (EXIT_SUCCESS);
         } else {
-                fprintf(stderr, "Failed to parse JSON temp file\n");
+                fprintf(stderr, "Failed to parse JSON structue\n");
                 if (source != NULL)
                         free(source);
                 return (EXIT_FAILURE);
