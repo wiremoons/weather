@@ -51,12 +51,13 @@ int parse_now(char *json_source)
         /* print each data entry extracted to screen */
         timezone = cJSON_GetObjectItemCaseSensitive(weather_json, "timezone");
         if (cJSON_IsString(timezone) && (timezone->valuestring != NULL)) {
-                printf("» Weather timezone is: '%s' ", timezone->valuestring);
+                printf("» Weather timezone is : '%s'\n", timezone->valuestring);
         }
 
         latitude = cJSON_GetObjectItemCaseSensitive(weather_json, "latitude");
         if (cJSON_IsNumber(latitude)) {
-                printf("at latitude: '%f' ", latitude->valuedouble);
+                printf("» Weather location is : latitude: '%f' ",
+                       latitude->valuedouble);
         }
 
         longitude = cJSON_GetObjectItemCaseSensitive(weather_json, "longitude");
@@ -84,27 +85,28 @@ int parse_now(char *json_source)
                 time = cJSON_GetObjectItemCaseSensitive(currently, "time");
                 if (cJSON_IsNumber(time)) {
                         time_t rawtime = (time_t)(long)time->valueint;
-                        printf("» Time: %s", asctime(localtime(&rawtime)));
+                        printf("» Forecast date is    : %s",
+                               asctime(localtime(&rawtime)));
                 }
 
                 printf("\n» Weather Currenty:\n");
                 summary =
                     cJSON_GetObjectItemCaseSensitive(currently, "summary");
                 if (cJSON_IsString(summary) && (summary->valuestring != NULL)) {
-                        printf("\tSummary:     %s\n", summary->valuestring);
+                        printf("    Summary     : %s\n", summary->valuestring);
                 }
 
                 windSpeed =
                     cJSON_GetObjectItemCaseSensitive(currently, "windSpeed");
                 if (cJSON_IsNumber(windSpeed)) {
-                        printf("\tWindspeed:   %.1fmph\n",
+                        printf("    Windspeed   : %.1fmph\n",
                                windSpeed->valuedouble);
                 }
 
                 temperature =
                     cJSON_GetObjectItemCaseSensitive(currently, "temperature");
                 if (cJSON_IsNumber(temperature)) {
-                        printf("\tTemperature: %.1f°C ",
+                        printf("    Temperature : %.1f°C ",
                                temperature->valuedouble);
                 }
 
@@ -118,7 +120,7 @@ int parse_now(char *json_source)
                 uvIndex =
                     cJSON_GetObjectItemCaseSensitive(currently, "uvIndex");
                 if (cJSON_IsNumber(uvIndex)) {
-                        printf("\tUV Index:    %d\n", uvIndex->valueint);
+                        printf("    UV Index    : %d\n", uvIndex->valueint);
                 }
         }
 
@@ -135,7 +137,7 @@ int parse_now(char *json_source)
                 dsummary = cJSON_GetObjectItemCaseSensitive(daily, "summary");
                 if (cJSON_IsString(summary) &&
                     (dsummary->valuestring != NULL)) {
-                        printf("\n» Weather Outlook:\n\t'%s'\n",
+                        printf("\n» Days' Outlook:\n    '%s'\n",
                                dsummary->valuestring);
                 }
         }
