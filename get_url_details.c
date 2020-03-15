@@ -16,6 +16,13 @@
 
 // https://api.darksky.net/forecast/<dark-skykey-here>/<geoloc-here>?units=uk2
 
+/*
+ * Construct the URL required to obtains the weather forecast
+ * from the DarkSky web site.
+ * Needs to include API key, co-ordinates, and output format for
+ * miles vs Kph etc. Allocate url string on heap and return pointer to
+ * the calling function.
+ */
 char *provide_url(void)
 {
         char *cli_page = NULL;
