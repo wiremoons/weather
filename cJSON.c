@@ -79,7 +79,7 @@ CJSON_PUBLIC(const char *) cJSON_GetErrorPtr(void)
     return (const char*) (global_error.json + global_error.position);
 }
 
-CJSON_PUBLIC(char *) cJSON_GetStringValue(cJSON *item) {
+CJSON_PUBLIC(char *) cJSON_GetStringValue(const cJSON * const item) {
     if (!cJSON_IsString(item)) {
         return NULL;
     }
@@ -132,7 +132,7 @@ typedef struct internal_hooks
 } internal_hooks;
 
 #if defined(_MSC_VER)
-/* work around MSVC error C2322: '...' address of dillimport '...' is not static */
+/* work around MSVC error C2322: '...' address of dllimport '...' is not static */
 static void * CJSON_CDECL internal_malloc(size_t size)
 {
     return malloc(size);
@@ -480,6 +480,12 @@ static void update_offset(printbuffer * const buffer)
     buffer->offset += strlen((const char*)buffer_pointer);
 }
 
+/* securely comparison of floating-point variables */
+static cJSON_bool compare_double(double a, double b)
+{
+    return (fabs(a - b) <= CJSON_DOUBLE_PRECISION);
+}
+
 /* Render the number nicely from the given item into a string. */
 static cJSON_bool print_number(const cJSON * const item, printbuffer * const output_buffer)
 {
@@ -487,9 +493,9 @@ static cJSON_bool print_number(const cJSON * const item, printbuffer * const out
     double d = item->valuedouble;
     int length = 0;
     size_t i = 0;
-    unsigned char number_buffer[26]; /* temporary buffer to print the number into */
+    unsigned char number_buffer[26] = {0}; /* temporary buffer to print the number into */
     unsigned char decimal_point = get_decimal_point();
-    double test;
+    double test = 0.0;
 
     if (output_buffer == NULL)
     {
@@ -507,7 +513,7 @@ static cJSON_bool print_number(const cJSON * const item, printbuffer * const out
         length = sprintf((char*)number_buffer, "%1.15g", d);
 
         /* Check whether the original double can be recovered */
-        if ((sscanf((char*)number_buffer, "%lg", &test) != 1) || ((double)test != d))
+        if ((sscanf((char*)number_buffer, "%lg", &test) != 1) || !compare_double((double)test, d))
         {
             /* If not, print with 17 decimal places of precision */
             length = sprintf((char*)number_buffer, "%1.17g", d);
@@ -1199,20 +1205,20 @@ CJSON_PUBLIC(char *) cJSON_PrintBuffered(const cJSON *item, int prebuffer, cJSON
     return (char*)p.buffer;
 }
 
-CJSON_PUBLIC(cJSON_bool) cJSON_PrintPreallocated(cJSON *item, char *buf, const int len, const cJSON_bool fmt)
+CJSON_PUBLIC(cJSON_bool) cJSON_PrintPreallocated(cJSON *item, char *buffer, const int length, const cJSON_bool format)
 {
     printbuffer p = { 0, 0, 0, 0, 0, 0, { 0, 0, 0 } };
 
-    if ((len < 0) || (buf == NULL))
+    if ((length < 0) || (buffer == NULL))
     {
         return false;
     }
 
-    p.buffer = (unsigned char*)buf;
-    p.length = (size_t)len;
+    p.buffer = (unsigned char*)buffer;
+    p.length = (size_t)length;
     p.offset = 0;
     p.noalloc = true;
-    p.format = fmt;
+    p.format = format;
     p.hooks = global_hooks;
 
     return print_value(item, &p);
@@ -1865,20 +1871,33 @@ static cJSON_bool add_item_to_array(cJSON *array, cJSON *item)
     }
 
     child = array->child;
-
+    /*
+     * To find the last item in array quickly, we use prev in array
+     */
     if (child == NULL)
     {
         /* list is empty, start new one */
         array->child = item;
+        item->prev = item;
+        item->next = NULL;
     }
     else
     {
         /* append to the end */
-        while (child->next)
+        if (child->prev)
         {
-            child = child->next;
+            suffix_object(child->prev, item);
+            array->child->prev = item;
         }
-        suffix_object(child, item);
+        else
+        {
+            while (child->next)
+            {
+                child = child->next;
+            }
+            suffix_object(child, item);
+            array->child->prev = item;
+        }
     }
 
     return true;
@@ -2089,7 +2108,7 @@ CJSON_PUBLIC(cJSON *) cJSON_DetachItemViaPointer(cJSON *parent, cJSON * const it
         return NULL;
     }
 
-    if (item->prev != NULL)
+    if (item != parent->child)
     {
         /* not the first element */
         item->prev->next = item->next;
@@ -2200,13 +2219,19 @@ CJSON_PUBLIC(cJSON_bool) cJSON_ReplaceItemViaPointer(cJSON * const parent, cJSON
     {
         replacement->next->prev = replacement;
     }
-    if (replacement->prev != NULL)
-    {
-        replacement->prev->next = replacement;
-    }
     if (parent->child == item)
     {
         parent->child = replacement;
+    }
+    else
+    {   /*
+         * To find the last item in array quickly, we use prev in array.
+         * We can't modify the last item's next pointer where this item was the parent's child
+         */
+        if (replacement->prev != NULL)
+        {
+            replacement->prev->next = replacement;
+        }
     }
 
     item->next = NULL;
@@ -2290,12 +2315,12 @@ CJSON_PUBLIC(cJSON *) cJSON_CreateFalse(void)
     return item;
 }
 
-CJSON_PUBLIC(cJSON *) cJSON_CreateBool(cJSON_bool b)
+CJSON_PUBLIC(cJSON *) cJSON_CreateBool(cJSON_bool boolean)
 {
     cJSON *item = cJSON_New_Item(&global_hooks);
     if(item)
     {
-        item->type = b ? cJSON_True : cJSON_False;
+        item->type = boolean ? cJSON_True : cJSON_False;
     }
 
     return item;
@@ -2524,7 +2549,7 @@ CJSON_PUBLIC(cJSON *) cJSON_CreateDoubleArray(const double *numbers, int count)
     return a;
 }
 
-CJSON_PUBLIC(cJSON *) cJSON_CreateStringArray(const char **strings, int count)
+CJSON_PUBLIC(cJSON *) cJSON_CreateStringArray(const char *const *strings, int count)
 {
     size_t i = 0;
     cJSON *n = NULL;
@@ -2876,7 +2901,7 @@ CJSON_PUBLIC(cJSON_bool) cJSON_Compare(const cJSON * const a, const cJSON * cons
             return true;
 
         case cJSON_Number:
-            if (a->valuedouble == b->valuedouble)
+            if (compare_double(a->valuedouble, b->valuedouble))
             {
                 return true;
             }
