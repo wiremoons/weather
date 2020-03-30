@@ -1,7 +1,7 @@
 /* Weather Forecast Tool (getweather) : screen-output.c */
 
-#include "screen-output.h"
 #include "cJSON.h"
+#include "screen-output.h"
 
 /* added to enable compile on MacOSX */
 #ifndef __clang__
