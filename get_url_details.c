@@ -29,7 +29,7 @@ char *provide_url(void)
         char *cli_page = NULL;
 
         char *fullurl = "https://api.darksky.net/forecast/"
-                        "66fd639c6914180e12c355899c5ec267/"
+                        "ADD-DARKSKY-API-KEY-HERE/"
                         "51.419212,-3.291481?units=uk2";
 
         /* allocated memory for complete URL on heap */

@@ -24,4 +24,4 @@ jobs:
     - name : Test Run 'weather' App
       run: |
         cd build/
-        ./weather
+        ./weather -v
