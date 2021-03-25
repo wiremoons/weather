@@ -17,6 +17,7 @@
 // https://api.darksky.net/forecast/<dark-skykey-here>/<geoloc-here>?units=uk2
 
 /*
+ * file: 'get_url_details.c'
  * Construct the URL required to obtains the weather forecast
  * from the DarkSky web site.
  * Needs to include API key, co-ordinates, and output format for
@@ -34,13 +35,16 @@ char *provide_url(void)
         /* allocated memory for complete URL on heap */
         cli_page = (char *)malloc(sizeof(char) * (strlen(fullurl) + 1));
 
-        if (cli_page == NULL) {
+        if (cli_page == NULL)
+        {
                 fprintf(stderr, "\nERROR: unable to allocate "
                                 "url memory in 'get_url_details.c'\n");
                 exit(EXIT_FAILURE);
         }
 
+        // copy the fullurl string into the allocated memory for cli_page
         cli_page = strndup(fullurl, strlen(fullurl));
 
+        // return the pointer to the heap allocated memory
         return cli_page;
 }

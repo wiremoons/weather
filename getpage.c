@@ -20,8 +20,9 @@
 #include <string.h>
 #include <sys/types.h>
 
-/* Function getpage
- *  Takes two parameters:
+/* 
+ *  file: 'getpage.c'
+ *  Function getpage takes two parameters:
  *       - url_req : the full url and parameters for the weather data request
  *       - pageholder : the temporary file to write the JSON data into
  *
@@ -34,7 +35,8 @@ long getpage(char *url_req, FILE *pageholder)
 {
 
         /* print out full URL request if in debug mode */
-        if (debug) {
+        if (debug)
+        {
                 printf("DarkSky URL request is: %s\n", url_req);
         }
 
@@ -66,7 +68,8 @@ long getpage(char *url_req, FILE *pageholder)
         result = curl_easy_perform(curl);
 
         /* check for errors */
-        if (result != CURLE_OK) {
+        if (result != CURLE_OK)
+        {
                 fprintf(stderr,
                         "FAILED: Curl request returned error: '%d' : '%s'\n",
                         result, curl_easy_strerror(result));
@@ -79,13 +82,15 @@ long getpage(char *url_req, FILE *pageholder)
         /* DEBUG : check what http response code was received and obtain some
          * basic performance stats for the transfer of the json data from Dark
          * Sky */
-        if (debug) {
+        if (debug)
+        {
                 /* print out web response code received from DarkSky site */
                 printf("DarkSky web response code was: %ld\n", http_code);
                 /* check to see if there was any site redirect provided? */
                 char *redirect_url = NULL;
                 curl_easy_getinfo(curl, CURLINFO_REDIRECT_URL, &redirect_url);
-                if (redirect_url) {
+                if (redirect_url)
+                {
                         printf("Re-direct to web site: %s\n", redirect_url);
                 }
                 /* check to see if any re-directs were followed? */
