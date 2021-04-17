@@ -22,7 +22,15 @@ add_executable(weather ${SOURCES})
 #
 # state what libraries we need to compile
 find_package(CURL REQUIRED)
-include_directories(${CURL_INCLUDE_DIRS})
+
 #
-# list the names of the C libraries to link against: libcurl
-target_link_libraries(weather ${CURL_LIBRARIES})
+# Try to build if Curl libs are found...
+if(CURL_FOUND)
+    # get the location of the Curl include location
+    include_directories(${CURL_INCLUDE_DIRS})
+    # list the names of the C libraries to link against: libcurl
+    target_link_libraries(weather ${CURL_LIBRARIES})
+else(CURL_FOUND)
+    message(FATAL_ERROR "Could not find the CURL library and development files.")
+endif(CURL_FOUND)
+
