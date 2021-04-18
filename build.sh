@@ -1,6 +1,13 @@
 #!/bin/bash
 #
 # Generic script to build project with CMake
+
+if [[ -d ./build ]] ; then
+  printf "Found old build directory:  removing...\n"
+  rm -Rf ./build
+  sync
+fi
+
 printf "Creating build directory...\n"
 mkdir ./build
 sync
