@@ -3,7 +3,8 @@
 #  To use run:  mkdir build && cd build && cmake .. && make
 #
 # min cmake version was 3.13. Set for GitHub version: 3.12.4
-cmake_minimum_required(VERSION 3.12)
+# Curl version message requires version >= 3.13
+cmake_minimum_required(VERSION 3.13)
 project(weather)
 #
 # enable verbose output
@@ -30,6 +31,8 @@ if(CURL_FOUND)
     include_directories(${CURL_INCLUDE_DIRS})
     # list the names of the C libraries to link against: libcurl
     target_link_libraries(weather ${CURL_LIBRARIES})
+    # output what verison of Curl lib was found
+    message("Found Curl library version ${CURL_VERSION_STRING}.")
 else(CURL_FOUND)
     message(FATAL_ERROR "Could not find the CURL library and development files.")
 endif(CURL_FOUND)
