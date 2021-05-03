@@ -16,7 +16,7 @@ jobs:
         sudo apt -y install libcurl4-openssl-dev
     - name: Create build with CMake
       run: |
-        sh ./build.sh
+        ./build.sh
     - name : Test Run 'weather' App
       run: |
         cd bin/
