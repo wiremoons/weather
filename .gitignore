@@ -23,5 +23,6 @@ tags
 .depend
 # ignore CMake build directory
 build/
+bin/
 # ignore keys file used for development reference
 keys.txt
