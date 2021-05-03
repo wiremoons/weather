@@ -1,8 +1,8 @@
-#!/bin/zsh
+#!/bin/bash
 #
 # Generic script to build project with CMake
 
-if [[ -d ./build ]] ; then
+if [ -d ./build ] ; then
   printf "Found old build directory:  removing...\n"
   rm -Rf ./build
   sync
@@ -15,10 +15,10 @@ sleep 1
 cd ./build
 printf "Starting generation of build files with CMake...\n"
 cmake ..
-if [[ $? ]] ; then
+if [ $? ] ; then
   printf "CMake ran Ok - start build with 'make' ...\n"
   make
-  if [[ $? ]] ; then
+  if [ $? ] ; then
     printf "\nExecuting built application:\n\n"
     ../bin/weather
   fi
