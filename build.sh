@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 #
 # Generic script to build project with CMake
 
