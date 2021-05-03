@@ -10,6 +10,10 @@ project(weather)
 # enable verbose output
 #set(CMAKE_VERBOSE_MAKEFILE on)
 #
+# add location for built binary file
+#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+#
 # add list of c source code files to var ${SOURCES}
 file(GLOB SOURCES "./*.c")
 #
