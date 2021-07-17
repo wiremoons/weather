@@ -9,7 +9,7 @@
 /*
  *   APPLICATION GLOBAL VARIABLES
  */
-extern char appversion[]; /* the version of the app here */
+extern const char appversion[]; /* the version of the app here */
 
 /* FUNCTION DECLARATIONS FOR screen-output.c */
 
