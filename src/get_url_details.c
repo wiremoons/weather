@@ -27,13 +27,30 @@
 char *provide_url(void)
 {
         char *cli_page = NULL;
+        char *dsky_key = NULL;
+        const char *siteurl = "https://api.darksky.net/forecast/";
+        const char *geoloc = "/51.419212,-3.291481?units=uk2";
 
-        char *fullurl = "https://api.darksky.net/forecast/"
-                        "ADD-DARKSKY-API-KEY-HERE/"
-                        "51.419212,-3.291481?units=uk2";
+        if (getenv("DSAPI")) {
+            dsky_key = (char *) malloc(sizeof(char) * (strlen(getenv("DSAPI")) + 1));
+            if (dsky_key == NULL)
+            {
+                fprintf(stderr, "\nERROR: unable to allocate "
+                                "DarkSky API key memory in 'get_url_details.c'\n");
+                exit(EXIT_FAILURE);
+            }
+            dsky_key = strndup(getenv("DSAPI"), strlen(getenv("DSAPI")));
+
+        } else {
+            fprintf(stderr, "\nERROR: unable to find DarkSky API key: "
+                            "set env: 'DSAPI' with key and retry.\n");
+            exit(EXIT_FAILURE);
+        }
+
+        size_t url_len = (strlen(siteurl) + strlen(geoloc) + strlen(dsky_key) + 1);
 
         /* allocated memory for complete URL on heap */
-        cli_page = (char *)malloc(sizeof(char) * (strlen(fullurl) + 1));
+        cli_page = (char *)malloc(sizeof(char) * url_len);
 
         if (cli_page == NULL)
         {
@@ -42,8 +59,8 @@ char *provide_url(void)
                 exit(EXIT_FAILURE);
         }
 
-        // copy the fullurl string into the allocated memory for cli_page
-        cli_page = strndup(fullurl, strlen(fullurl));
+        // copy the siteurl; dsky_key; and geoloc strings into the allocated memory for cli_page
+        snprintf(cli_page,url_len,"%s%s%s",siteurl,dsky_key,geoloc);
 
         // return the pointer to the heap allocated memory
         return cli_page;
