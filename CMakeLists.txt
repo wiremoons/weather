@@ -15,7 +15,7 @@ project(weather)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
 #
 # add list of c source code files to var ${SOURCES}
-file(GLOB SOURCES "./*.c")
+file(GLOB SOURCES "./src/*.c")
 #
 # add additional flags to standard ${CMAKE_C_FLAGS}
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -g")
