@@ -21,21 +21,31 @@
  *
  * Function does not return any information as it just outputs to the screen
  */
-void print_version_screen(char *prog_name)
-{
-        /* get Curl info data struct to obtain version info */
-        curl_version_info_data *cdinfo = curl_version_info(CURLVERSION_NOW);
+void print_version_screen(char *prog_name) {
 
-        /* output version information to the screen for application and
-         * libraries */
-        printf("\n"
-               "'%s' version is: %s.\n"
-               "Complied with Curl version: %s including support for SSL "
-               "version: %s.\n"
-               "cJSON library version: %s.\n",
-               prog_name, appversion, cdinfo->version, cdinfo->ssl_version,
-               cJSON_Version());
-        printf(
+    /* Check build flag used when program was compiled */
+    #if DEBUG
+        char Build_Type[] = "Debug";
+    #else
+        char Build_Type[] = "Release";
+    #endif
+
+    /* get Curl info data struct to obtain version info */
+    curl_version_info_data *cdinfo = curl_version_info(CURLVERSION_NOW);
+
+    /* output version information to the screen for application and
+     * libraries */
+    printf("\n"
+           "'%s' version is: %s.\n"
+           "Compiled on: '%s @ %s' with C source built as '%s'.\n"
+           "Copyright (c) 2021 Simon Rowe.\n\n"
+           "Complied with Curl version: %s including support for SSL "
+           "version: %s.\n"
+           "cJSON library version: %s.\n",
+
+           prog_name, appversion, __DATE__,__TIME__,Build_Type,cdinfo->version, cdinfo->ssl_version,
+           cJSON_Version());
+    printf(
             "\nFor licenses and further information visit:\n"
             " - Weather application :  https://github.com/wiremoons/weather/\n"
             " - Curl and Libcurl    :  https://github.com/curl/curl/\n"
@@ -51,13 +61,12 @@ void print_version_screen(char *prog_name)
  *
  * Function does not return any information as it just outputs to the screen
  */
-void show_help(void)
-{
-        printf("\n"
-               "Help Summary:\n"
-               "The following command line switches can be used:\n"
-               "\n"
-               "  -h    Help     : show this help information\n"
-               "  -v    Version  : show version information\n"
-               "  -d    Debug    : show debug output when run\n\n");
+void show_help(void) {
+    printf("\n"
+           "Help Summary:\n"
+           "The following command line switches can be used:\n"
+           "\n"
+           "  -h    Help     : show this help information\n"
+           "  -v    Version  : show version information\n"
+           "  -d    Debug    : show debug output when run\n\n");
 }

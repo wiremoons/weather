@@ -26,7 +26,7 @@
 /*
  *   APPLICATION GLOBAL VARIABLES
  */
-const char appversion[] = "0.0.4"; /* set the version of the app here */
+const char appversion[] = "0.0.5"; /* set the version of the app here */
 int debug = 0;         /* control if debug is enabled 0 == off | 1 == on */
 char *cli_page = NULL; /* URL of request to DarkSky API */
 
