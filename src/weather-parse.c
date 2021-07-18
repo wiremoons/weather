@@ -45,7 +45,7 @@ int parse_now(char *json_source)
         }
 
         /* Send first output to screen */
-        printf("\n ∞∞ Forecast ∞∞\n\n");
+        printf("\n");
 
         /* get object data from main JSON objects */
         const cJSON *timezone = NULL;
