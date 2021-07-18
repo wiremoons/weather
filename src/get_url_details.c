@@ -12,7 +12,6 @@
 #include <stdio.h>  /* printf */
 #include <stdlib.h> /* getenv */
 #include <string.h> /* strlen strdup */
-#include <unistd.h> /* strdup access */
 
 // https://api.darksky.net/forecast/<dark-skykey-here>/<geoloc-here>?units=uk2
 
